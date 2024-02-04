@@ -1,0 +1,23 @@
+server:
+  port: 8088
+spring:
+  application:
+    name: orderService
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        cluster-name: beijing
+      server-addr: localhost:80
+      config:
+        fileExtension: yaml
+feign:
+  httpclient:
+    enable: true  # 开关
+    maxConnections: 200 # 最大连接数
+    maxConnectionsPerRoute: 40  # 单个路径最大连接数
+  client:
+    config:
+      default:
+        loggerLevel: NONE  # NONE BASIC FULL

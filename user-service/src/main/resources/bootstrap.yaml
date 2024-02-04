@@ -1,0 +1,14 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: userService
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        cluster-name: beijing
+      server-addr: localhost:80
+      config:
+        fileExtension: yaml

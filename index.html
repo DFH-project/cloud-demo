@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用Axios进行HTTP请求</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+</body>
+
+<script>
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET',"http://localhost:8100/user/2?authorization=admin" , true);
+    xhr.send();
+    xhr.onreadystatechange = function () {
+        // 检查请求是否已完成（readyState == 4）并且成功（status == 200）
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // 如果请求成功，打印响应文本
+            console.log(xhr.responseText);
+        }
+    }
+    axios.get("http://localhost:8100/user/1?authorization=admin").then(res => {
+        console.log(res.data);
+    })
+    .catch(err=>console.log(err))
+</script>
+
+</html>

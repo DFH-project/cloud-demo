@@ -1,0 +1,38 @@
+server:
+  port: 8100
+spring:
+  application:
+    name: gateway
+  profiles:
+      active: dev
+  cloud:
+    nacos:
+      server-addr: localhost:80
+      config:
+        fileExtension: yaml
+    gateway:
+      routes:
+        - id: user-Service  # 路由标识
+          uri: lb://userService # 路由目标地址
+          predicates: # 路径断言  有多种情况 - After=2031-01-01T00:00:00Z 表示在2031之后可以访问
+            - Path=/user/**
+
+        - id: order-Service
+          uri: lb://orderService
+          predicates:
+            - Path=/order/**
+      defaultFilters: # 针对所有路由过滤器  AddRequestHeader先声明，oder值为1，XXXHeader order值为2 后续递增,过滤值一样时 defaultFilter>filter>GlobalFilter
+        - AddRequestHeader=Truth,DFH-NB
+      globalcors: # 全局cors
+        add-to-simple-url-handler-mapping: true # true表示将所有请求都加入到cors中
+        cors-configurations: # 全局配置
+          '[/**]': # 通配符
+            allowed-origins: '*'  # 允许跨域的网址
+            allowed-methods: '*'  # 允许跨域的请求方法
+            allowed-headers: '*'  # 允许跨域的请求头
+            allow-credentials: true # 允许携带cookie
+            max-age: 18000  # 跨域缓存时间
+      discovery: # nacos服务发现
+        locator: # 服务发现
+          enabled: true  # 是否开启服务发现
+          lower-case-service-id: true # 将服务名转为小写
