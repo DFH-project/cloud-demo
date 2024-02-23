@@ -1,0 +1,48 @@
+server:
+  port: 8088
+spring:
+  application:
+    name: orderService
+  profiles:
+    active: prod
+  cloud:
+    nacos:
+      discovery:
+        cluster-name: beijing
+      server-addr: nacos:8845
+      config:
+        fileExtension: yaml
+  datasource:
+    url: jdbc:mysql://mysql:3306/cloud_user?useSSL=false
+    username: root
+    password: admin
+    driver-class-name: com.mysql.jdbc.Driver
+mybatis:
+  type-aliases-package: cn.itcast.user.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    cn.itcast: debug
+    com.alibaba.nacos.client.naming: ERRO
+    pattern:
+      dateformat: MM-dd HH:mm:ss:SSS
+ribbon:
+  eager-load:
+    enabled: true # 开启饥饿加载
+    clients: # 指定饥饿加载的服务名称
+      - userservice
+# NacosRule 优先选择本地集群 ，在本地集群里随机选择，在同集群找不到再去挑选其他集群服务
+userService:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.alibaba.cloud.nacos.ribbon.NacosRule
+
+feign:
+  httpclient:
+    enable: true  # 开关
+    maxConnections: 200 # 最大连接数
+    maxConnectionsPerRoute: 40  # 单个路径最大连接数
+  client:
+    config:
+      default:
+        loggerLevel: NONE  # NONE BASIC FULL

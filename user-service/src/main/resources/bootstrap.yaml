@@ -9,6 +9,6 @@ spring:
     nacos:
       discovery:
         cluster-name: beijing
-      server-addr: localhost:80
+      server-addr: localhost:8845
       config:
         fileExtension: yaml

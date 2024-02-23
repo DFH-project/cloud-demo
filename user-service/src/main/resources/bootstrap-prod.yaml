@@ -1,0 +1,27 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: userService
+  profiles:
+    active: prod
+  cloud:
+    nacos:
+      discovery:
+        cluster-name: beijing
+      server-addr: nacos:8845
+      config:
+        fileExtension: yaml
+  datasource:
+    url: jdbc:mysql://mysql:3306/cloud_user?useSSL=false
+    username: root
+    password: admin
+    driver-class-name: com.mysql.jdbc.Driver
+  mybatis:
+    type-aliases-package: cn.itcast.user.pojo
+    configuration:
+      map-underscore-to-camel-case: true
+  logging:
+    level:
+      cn.itcast: debug
+      com.alibaba.nacos.client.naming: ERRO
